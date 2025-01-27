@@ -6,7 +6,8 @@ export interface Ticket {
     email: string;
     avatar: string;
   };
-  status: 'open' | 'closed';
+  status: 'open' | 'closed' | 'pending' | 'resolved';
+  category: 'support' | 'billing' | 'feature' | 'bug' | 'other';
   priority: 'low' | 'medium' | 'high';
   lastUpdate: string;
   messages: {
@@ -15,6 +16,11 @@ export interface Ticket {
     content: string;
     timestamp: string;
     isCustomer: boolean;
+    attachments?: {
+      name: string;
+      url: string;
+      type: string;
+    }[];
   }[];
 }
 
@@ -28,6 +34,7 @@ export const mockTickets: Ticket[] = [
       avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=John",
     },
     status: "open",
+    category: "support",
     priority: "high",
     lastUpdate: "2024-02-10T10:30:00Z",
     messages: [
@@ -56,6 +63,7 @@ export const mockTickets: Ticket[] = [
       avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah",
     },
     status: "closed",
+    category: "billing",
     priority: "medium",
     lastUpdate: "2024-02-09T15:20:00Z",
     messages: [
@@ -77,6 +85,7 @@ export const mockTickets: Ticket[] = [
       avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Mike",
     },
     status: "open",
+    category: "feature",
     priority: "low",
     lastUpdate: "2024-02-08T09:15:00Z",
     messages: [
