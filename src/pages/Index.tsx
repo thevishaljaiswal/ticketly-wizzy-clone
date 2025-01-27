@@ -1,11 +1,32 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import { mockTickets, Ticket } from "@/lib/mock-data";
+import { Sidebar } from "@/components/Sidebar";
+import { TicketList } from "@/components/TicketList";
+import { TicketDetail } from "@/components/TicketDetail";
 
 const Index = () => {
+  const [selectedFilter, setSelectedFilter] = useState("all");
+  const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null);
+
+  const filteredTickets = mockTickets.filter((ticket) => {
+    if (selectedFilter === "all") return true;
+    return ticket.status === selectedFilter;
+  });
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
+    <div className="h-screen flex bg-white">
+      <Sidebar selectedFilter={selectedFilter} onFilterChange={setSelectedFilter} />
+      <div className="flex-1 flex">
+        <div className="w-80">
+          <TicketList
+            tickets={filteredTickets}
+            selectedTicketId={selectedTicket?.id || null}
+            onSelectTicket={setSelectedTicket}
+          />
+        </div>
+        <div className="flex-1">
+          <TicketDetail ticket={selectedTicket} />
+        </div>
       </div>
     </div>
   );
