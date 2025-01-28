@@ -44,7 +44,9 @@ export const mockTickets = [
     lastUpdate: "2024-02-09T15:20:00Z",
     messages: [
       {
-        id: "m3",d an unexpected charge on my last bill. Could you explain what this is for?",
+        id: "m3",
+        from: "Sarah Johnson",
+        content: "I noticed an unexpected charge on my last bill. Could you explain what this is for?",
         timestamp: "2024-02-09T15:20:00Z",
         isCustomer: true,
       },
