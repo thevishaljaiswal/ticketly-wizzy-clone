@@ -9,6 +9,7 @@ export interface Ticket {
   status: 'open' | 'closed' | 'pending' | 'resolved';
   category: 'support' | 'billing' | 'feature' | 'bug' | 'other';
   priority: 'low' | 'medium' | 'high';
+  description: string;  // Added this field to fix TS error
   lastUpdate: string;
   messages: {
     id: string;
@@ -36,6 +37,7 @@ export const mockTickets: Ticket[] = [
     status: "open",
     category: "support",
     priority: "high",
+    description: "I've been trying to log in but keep getting errors",
     lastUpdate: "2024-02-10T10:30:00Z",
     messages: [
       {
@@ -65,6 +67,7 @@ export const mockTickets: Ticket[] = [
     status: "closed",
     category: "billing",
     priority: "medium",
+    description: "Question about my recent bill",
     lastUpdate: "2024-02-09T15:20:00Z",
     messages: [
       {
@@ -72,28 +75,6 @@ export const mockTickets: Ticket[] = [
         from: "Sarah Johnson",
         content: "I noticed an unexpected charge on my last bill. Could you explain what this is for?",
         timestamp: "2024-02-09T15:20:00Z",
-        isCustomer: true,
-      },
-    ],
-  },
-  {
-    id: "3",
-    subject: "Feature request: Dark mode",
-    customer: {
-      name: "Mike Wilson",
-      email: "mike.w@example.com",
-      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Mike",
-    },
-    status: "open",
-    category: "feature",
-    priority: "low",
-    lastUpdate: "2024-02-08T09:15:00Z",
-    messages: [
-      {
-        id: "m4",
-        from: "Mike Wilson",
-        content: "Would love to see a dark mode option in the app. Any plans to add this?",
-        timestamp: "2024-02-08T09:15:00Z",
         isCustomer: true,
       },
     ],
