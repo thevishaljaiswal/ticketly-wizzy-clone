@@ -85,43 +85,55 @@ export const TicketDetail = ({ ticket }: TicketDetailProps) => {
           </div>
         </div>
       </div>
+
+      <div className="p-4 border-b border-gray-200">
+        <h3 className="text-sm font-medium text-gray-900 mb-2">Description</h3>
+        <Textarea
+          value={ticket.description || "No description provided"}
+          readOnly
+          className="min-h-[100px] bg-gray-50"
+        />
+      </div>
       
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        {ticket.messages.map((message) => (
-          <div
-            key={message.id}
-            className={`flex ${message.isCustomer ? "justify-start" : "justify-end"}`}
-          >
+        <div className="space-y-4">
+          <h3 className="text-sm font-medium text-gray-900">Comments</h3>
+          {ticket.messages.map((message) => (
             <div
-              className={`max-w-[80%] rounded-lg p-4 ${
-                message.isCustomer
-                  ? "bg-gray-100 text-gray-900"
-                  : "bg-primary text-white"
-              }`}
+              key={message.id}
+              className={`flex ${message.isCustomer ? "justify-start" : "justify-end"}`}
             >
-              <div className="font-medium mb-1">{message.from}</div>
-              <div>{message.content}</div>
-              {message.attachments && message.attachments.length > 0 && (
-                <div className="mt-2 space-y-1">
-                  {message.attachments.map((attachment) => (
-                    <a
-                      key={attachment.name}
-                      href={attachment.url}
-                      className="block text-sm underline"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {attachment.name}
-                    </a>
-                  ))}
+              <div
+                className={`max-w-[80%] rounded-lg p-4 ${
+                  message.isCustomer
+                    ? "bg-gray-100 text-gray-900"
+                    : "bg-primary text-white"
+                }`}
+              >
+                <div className="font-medium mb-1">{message.from}</div>
+                <div>{message.content}</div>
+                {message.attachments && message.attachments.length > 0 && (
+                  <div className="mt-2 space-y-1">
+                    {message.attachments.map((attachment) => (
+                      <a
+                        key={attachment.name}
+                        href={attachment.url}
+                        className="block text-sm underline"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {attachment.name}
+                      </a>
+                    ))}
+                  </div>
+                )}
+                <div className="text-xs mt-2 opacity-70">
+                  {new Date(message.timestamp).toLocaleString()}
                 </div>
-              )}
-              <div className="text-xs mt-2 opacity-70">
-                {new Date(message.timestamp).toLocaleString()}
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
       <div className="border-t border-gray-200 p-4 space-y-4">
