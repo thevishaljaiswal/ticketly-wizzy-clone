@@ -11,8 +11,29 @@ import {
   InputLabel,
   Paper,
   IconButton,
+  Stepper,
+  Step,
+  StepLabel,
+  StepContent,
 } from "@mui/material";
 import { AttachFile } from "@mui/icons-material";
+
+const EscalationStep = ({ label, date, isCurrent }) => {
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleString();
+  };
+
+  return (
+    <Box sx={{ 
+      color: isCurrent ? 'primary.main' : 'text.primary',
+      fontWeight: isCurrent ? 'bold' : 'normal',
+      mb: 1 
+    }}>
+      <Typography variant="subtitle2">{label}</Typography>
+      <Typography variant="caption">{formatDate(date)}</Typography>
+    </Box>
+  );
+};
 
 export const TicketDetail = ({ ticket }) => {
   const [reply, setReply] = useState("");
@@ -48,11 +69,25 @@ export const TicketDetail = ({ ticket }) => {
     setAttachments([]);
   };
 
+  const escalationSteps = [
+    { label: "RM Due Date", date: ticket.escalationStatus.rmDueDate },
+    { label: "TL Escalation", date: ticket.escalationStatus.tlEscalationDate },
+    { label: "GM Escalation", date: ticket.escalationStatus.gmEscalationDate },
+    { label: "HOD Escalation", date: ticket.escalationStatus.hodEscalationDate },
+    { label: "CMO Escalation", date: ticket.escalationStatus.cmoEscalationDate },
+    { label: "CEO Escalation", date: ticket.escalationStatus.ceoEscalationDate },
+  ];
+
   return (
     <Box sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
       <Box sx={{ p: 2, borderBottom: 1, borderColor: "divider" }}>
         <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
-          <Typography variant="h6">{ticket.subject}</Typography>
+          <Box>
+            <Typography variant="h6">{ticket.subject}</Typography>
+            <Typography variant="subtitle2" color="text.secondary">
+              Project: {ticket.projectName}
+            </Typography>
+          </Box>
           <Box sx={{ display: "flex", gap: 2 }}>
             <FormControl size="small" sx={{ minWidth: 120 }}>
               <InputLabel>Category</InputLabel>
@@ -88,6 +123,25 @@ export const TicketDetail = ({ ticket }) => {
             </Typography>
           </Box>
         </Box>
+      </Box>
+
+      <Box sx={{ p: 2, borderBottom: 1, borderColor: "divider" }}>
+        <Typography variant="subtitle2" gutterBottom>
+          Escalation Status
+        </Typography>
+        <Stepper orientation="vertical" sx={{ mt: 2 }}>
+          {escalationSteps.map((step, index) => (
+            <Step key={step.label} active={true} completed={index < escalationSteps.findIndex(s => s.label.toLowerCase().startsWith(ticket.escalationStatus.currentLevel))}>
+              <StepLabel>
+                <EscalationStep
+                  label={step.label}
+                  date={step.date}
+                  isCurrent={step.label.toLowerCase().startsWith(ticket.escalationStatus.currentLevel)}
+                />
+              </StepLabel>
+            </Step>
+          ))}
+        </Stepper>
       </Box>
 
       <Box sx={{ p: 2, borderBottom: 1, borderColor: "divider" }}>
